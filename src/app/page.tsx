@@ -121,6 +121,7 @@ const ActionButtons = ({
   isDeploying: boolean;
   compiledContract: { abi: Abi; bytecode: string } | null;
 }) => {
+  const { isConnected } = useAccount();
   return (
     <div className="flex gap-4 items-center flex-col sm:flex-row">
       <LoadingButton
@@ -139,16 +140,18 @@ const ActionButtons = ({
         className="border border-solid border-black/[.08] dark:border-white/[.145] hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent"
       />
 
-      {compiledContract && (
-        <LoadingButton
-          onClick={onDeploy}
-          isLoading={isDeploying}
-          loadingText="Deploying..."
-          buttonText="Deploy Contract"
-          disabled={!compiledContract}
-          className="border border-solid border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
-        />
-      )}
+      <LoadingButton
+        onClick={onDeploy}
+        isLoading={isDeploying}
+        loadingText="Deploying..."
+        buttonText="Deploy Contract"
+        disabled={!compiledContract || !isConnected}
+        className={`border border-solid ${
+          !compiledContract || !isConnected
+            ? "border-gray-300 text-gray-300 cursor-not-allowed"
+            : "border-green-500 text-green-500 hover:bg-green-500 hover:text-white"
+        }`}
+      />
 
       <ConnectButton />
     </div>
