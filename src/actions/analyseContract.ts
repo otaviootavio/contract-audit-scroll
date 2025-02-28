@@ -27,9 +27,42 @@ export const analyzeContract = async (contractCode: string) => {
       ],
     });
 
-    return message.content[0].type === 'text' ? message.content[0].text : '';
+    return message.content[0].type === "text" ? message.content[0].text : "";
   } catch (error) {
     console.error("Error analyzing contract:", error);
-    return "<div class='text-red-500'>Error analyzing contract. Please try again.</div>";
+
+    // Enhanced error handling with specific responses for different error types
+    // Check if it's an API error from Anthropic
+    if (error && typeof error === "object" && "status" in error) {
+      const apiError = error as {
+        status: number;
+        request_id?: string;
+        message?: string;
+      };
+
+      const status = apiError.status as number;
+
+      // Handle rate limiting and overloaded errors
+      if (status === 429) {
+        return "<div class='text-red-500'>Rate limit exceeded. Please try again in a few minutes.</div>";
+      } else if (status === 529) {
+        return "<div class='text-red-500'>The AI service is currently experiencing high demand. Please try again in a few minutes.</div>";
+      } else if (status === 400) {
+        return "<div class='text-red-500'>Invalid request. The contract code may be too large or contain invalid characters.</div>";
+      } else if (status === 401) {
+        return "<div class='text-red-500'>Authentication error. Please check your API key configuration.</div>";
+      } else if (status >= 500 && status < 600) {
+        return "<div class='text-red-500'>Server error. The AI service is currently experiencing issues. Please try again later.</div>";
+      }
+
+      // Include request ID if available for troubleshooting
+      const requestId = apiError.request_id
+        ? ` (Request ID: ${apiError.request_id})`
+        : "";
+      return `<div class='text-red-500'>Error analyzing contract: ${apiError.message}${requestId}</div>`;
+    }
+
+    // For network errors or other unexpected issues
+    return "<div class='text-red-500'>Error analyzing contract. Please check your network connection and try again.</div>";
   }
 };
