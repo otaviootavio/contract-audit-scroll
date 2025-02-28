@@ -22,8 +22,8 @@ AuditAI is a decentralized AI-powered platform for auditing smart contracts. Our
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/auditai.git
-cd auditai
+git clone https://github.com/otaviootavio/contract-audit-scroll
+cd contract-audit-scroll
 ```
 
 Install dependencies:
