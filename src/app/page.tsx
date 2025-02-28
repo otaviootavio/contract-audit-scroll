@@ -15,7 +15,7 @@ export default function Home() {
       <Card className="max-w-2xl text-center space-y-8">
         <CardHeader>
           <CardTitle className="text-5xl font-bold text-primary">
-            Smart Contract Auditor
+            🔍 Smart Contract Auditor
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -27,7 +27,7 @@ export default function Home() {
         </CardContent>
         <CardFooter className="flex justify-center">
           <Link href="/demo">
-            <Button>Try it now</Button>
+            <Button>🚀 Try it now</Button>
           </Link>
         </CardFooter>
       </Card>
@@ -36,7 +36,7 @@ export default function Home() {
         <Card className="text-center">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold text-primary">
-              AI-Powered Auditing
+              🤖 AI-Powered Auditing
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -51,18 +51,18 @@ export default function Home() {
         <Card className="text-center">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold text-primary">
-              OWASP Security Checklist
+              📋 OWASP Security Checklist
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-foreground">
-              Following OWASP smart contract security principles to systematically check for:
+              Following <a href="https://swcregistry.io/docs/" className="text-blue-500 hover:underline">OWASP smart contract security principles</a> to systematically check for:
             </p>
             <ul className="text-left mt-2 list-disc list-inside">
-              <li>Reentrancy vulnerabilities</li>
-              <li>Access control issues</li>
-              <li>Integer overflow/underflow</li>
-              <li>Gas optimization problems</li>
+              <li>🔄 Reentrancy vulnerabilities</li>
+              <li>🔒 Access control issues</li>
+              <li>🔢 Integer overflow/underflow</li>
+              <li>⛽ Gas optimization problems</li>
             </ul>
           </CardContent>
         </Card>

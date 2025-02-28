@@ -15,6 +15,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Constants
 const mockSmartContract = `// SPDX-License-Identifier: MIT
@@ -151,79 +160,143 @@ const ActionButtons = ({
   );
 };
 
-// Result display components
-const ErrorResult = ({ message }: { message: string }) => (
-  <Alert variant="destructive" className="w-full max-w-4xl mt-8">
-    <AlertTitle>Error</AlertTitle>
-    <AlertDescription>{message}</AlertDescription>
-  </Alert>
+// Result dialog components
+const ErrorDialog = ({
+  message,
+  isOpen,
+  onClose,
+}: {
+  message: string;
+  isOpen: boolean;
+  onClose: () => void;
+}) => (
+  <Dialog open={isOpen} onOpenChange={onClose}>
+    <DialogContent className="max-w-4xl">
+      <DialogHeader>
+        <DialogTitle className="text-destructive">Error</DialogTitle>
+      </DialogHeader>
+      <Alert variant="destructive">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{message}</AlertDescription>
+      </Alert>
+      <DialogFooter>
+        <Button onClick={onClose}>Close</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 );
 
-const CompilationResult = ({
+const CompilationDialog = ({
   abi,
   bytecode,
+  isOpen,
+  onClose,
 }: {
   abi: Abi;
   bytecode: string;
+  isOpen: boolean;
+  onClose: () => void;
 }) => (
-  <Card className="w-full max-w-4xl mt-8">
-    <CardContent className="p-6 space-y-4">
-      <h2 className="text-xl font-bold">Compilation Successful!</h2>
-      <div className="overflow-x-auto">
-        <h3 className="font-bold">ABI:</h3>
-        <pre className="text-sm">{JSON.stringify(abi, null, 2)}</pre>
-      </div>
-      <div className="overflow-x-auto">
-        <h3 className="font-bold">Bytecode:</h3>
-        <pre className="text-sm break-all">{bytecode}</pre>
-      </div>
-    </CardContent>
-  </Card>
+  <Dialog open={isOpen} onOpenChange={onClose}>
+    <DialogContent className="max-w-full">
+      <DialogHeader>
+        <DialogTitle>Compilation Successful!</DialogTitle>
+        <DialogDescription>
+          Your smart contract has been successfully compiled.
+        </DialogDescription>
+      </DialogHeader>
+      <ScrollArea className="max-h-[60vh]">
+        <div className="space-y-4 p-2">
+          <div className="overflow-x-auto">
+            <h3 className="font-bold">ABI:</h3>
+            <pre className="text-sm break-all whitespace-pre-wrap max-w-xl bg-muted p-2 rounded">
+              {JSON.stringify(abi, null, 2)}
+            </pre>
+          </div>
+          <div className="overflow-x-auto">
+            <h3 className="font-bold">Bytecode:</h3>
+            <pre className="text-sm break-all whitespace-pre-wrap max-w-xl bg-muted p-2 rounded">
+              {bytecode}
+            </pre>
+          </div>
+        </div>
+      </ScrollArea>
+      <DialogFooter>
+        <Button onClick={onClose}>Close</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 );
 
-const DeploymentResult = ({
+const DeploymentDialog = ({
   txid,
   explorerUrl,
   explorerName,
+  isOpen,
+  onClose,
 }: {
   txid: string;
   explorerUrl: string;
   explorerName: string;
+  isOpen: boolean;
+  onClose: () => void;
 }) => (
-  <Card className="w-full max-w-4xl mt-8">
-    <CardContent className="p-6 space-y-4">
-      <h2 className="text-xl font-bold text-green-500">
-        Contract Deployed Successfully!
-      </h2>
-      <p>Txid: {txid}</p>
-      <a
-        href={explorerUrl + "/tx/" + txid}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-500 underline p-2 rounded-md"
-      >
-        View on {explorerName}
-      </a>
-    </CardContent>
-  </Card>
+  <Dialog open={isOpen} onOpenChange={onClose}>
+    <DialogContent className="min-w-4xl">
+      <DialogHeader>
+        <DialogTitle className="text-green-500">
+          Contract Deployed Successfully!
+        </DialogTitle>
+        <DialogDescription>
+          Your smart contract has been successfully deployed to the blockchain.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="space-y-4 p-2">
+        <p className="font-medium">Transaction ID:</p>
+        <pre className="text-sm bg-muted p-2 rounded">
+          {txid}
+        </pre>
+        <a
+          href={`${explorerUrl}/tx/${txid}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline p-2 rounded-md inline-block"
+        >
+          View on {explorerName}
+        </a>
+      </div>
+      <DialogFooter>
+        <Button onClick={onClose}>Close</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 );
 
-const AuditResultDisplay = ({ result }: { result: string }) => (
-  <Card className="w-full max-w-4xl mt-8">
-    <CardHeader>
-      <CardTitle>
-        <p className="text-2xl font-bold">Audit Result</p>
-      </CardTitle>
-      <CardDescription>
-        <p className="text-sm text-gray-500">
-          This is the result of the audit.
-        </p>
-      </CardDescription>
-    </CardHeader>
-    <CardContent className="p-6">
-      <div dangerouslySetInnerHTML={{ __html: result }} />
-    </CardContent>
-  </Card>
+const AuditDialog = ({
+  result,
+  isOpen,
+  onClose,
+}: {
+  result: string;
+  isOpen: boolean;
+  onClose: () => void;
+}) => (
+  <Dialog open={isOpen} onOpenChange={onClose}>
+    <DialogContent className="min-w-full">
+      <DialogHeader>
+        <DialogTitle>Audit Result</DialogTitle>
+        <DialogDescription>
+          This is the result of the smart contract audit.
+        </DialogDescription>
+      </DialogHeader>
+      <ScrollArea className="min-w-full">
+        <div className="p-2" dangerouslySetInnerHTML={{ __html: result }} />
+      </ScrollArea>
+      <DialogFooter>
+        <Button onClick={onClose}>Close</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 );
 
 // Main application component
@@ -237,16 +310,24 @@ export default function Home() {
     bytecode: string;
   } | null>(null);
   const [isDeploying, setIsDeploying] = useState(false);
-  const [resultType, setResultType] = useState<
-    "none" | "audit" | "compilation" | "deployment" | "error"
-  >("none");
   const [errorMessage, setErrorMessage] = useState("");
   const [txid, setTxid] = useState("");
+
+  // Dialog state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<
+    "none" | "audit" | "compilation" | "deployment" | "error"
+  >("none");
 
   // Hooks
   const { deployContractAsync } = useDeployContract();
   const { chain } = useAccount();
   const { isCompiling, compileContract } = useSmartContract();
+
+  // Helper to close dialog
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
 
   // Action handlers
   const handleAudit = async () => {
@@ -254,20 +335,18 @@ export default function Home() {
     try {
       const result = await analyzeContract(code);
       setAuditResult(result);
-      setResultType("audit");
-      // Scroll to bottom after audit completes
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: "smooth",
-      });
+      setDialogType("audit");
+      setIsDialogOpen(true);
     } catch (error) {
       console.error("Error during audit:", error);
       setErrorMessage("An error occurred during the audit. Please try again.");
-      setResultType("error");
+      setDialogType("error");
+      setIsDialogOpen(true);
     } finally {
       setIsAuditing(false);
     }
   };
+
   const handleCompile = async () => {
     try {
       // Extract contract name from the code (assuming it's SimpleStorage in this case)
@@ -279,22 +358,19 @@ export default function Home() {
       });
 
       setCompiledContract({ abi, bytecode });
-      setResultType("compilation");
-
-      // Scroll to bottom after compilation completes
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: "smooth",
-      });
+      setDialogType("compilation");
+      setIsDialogOpen(true);
     } catch (err) {
       console.error("Error during compilation:", err);
       setCompiledContract(null);
       setErrorMessage(
         "An error occurred during compilation. Please try again."
       );
-      setResultType("error");
+      setDialogType("error");
+      setIsDialogOpen(true);
     }
   };
+
   const handleDeploy = async () => {
     if (!compiledContract) return;
 
@@ -312,48 +388,19 @@ export default function Home() {
       });
 
       setTxid(deployTxid);
-      setResultType("deployment");
-
-      // Scroll to bottom after deployment completes
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: "smooth",
-      });
+      setDialogType("deployment");
+      setIsDialogOpen(true);
     } catch (error) {
       console.error("Error deploying contract:", error);
       setErrorMessage("An error occurred during deployment. Please try again.");
-      setResultType("error");
+      setDialogType("error");
+      setIsDialogOpen(true);
     } finally {
       setIsDeploying(false);
     }
   };
 
-  // Render results based on type
-  const renderResult = () => {
-    switch (resultType) {
-      case "audit":
-        return <AuditResultDisplay result={auditResult} />;
-      case "compilation":
-        return compiledContract ? (
-          <CompilationResult
-            abi={compiledContract.abi}
-            bytecode={compiledContract.bytecode}
-          />
-        ) : null;
-      case "deployment":
-        return chain?.blockExplorers?.default ? (
-          <DeploymentResult
-            txid={txid}
-            explorerUrl={chain.blockExplorers.default.url}
-            explorerName={chain.blockExplorers.default.name}
-          />
-        ) : null;
-      case "error":
-        return <ErrorResult message={errorMessage} />;
-      default:
-        return null;
-    }
-  };
+  // No renderDialog function - we'll directly include dialog components
 
   // Render
   return (
@@ -374,9 +421,40 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 w-full">
           <CodeEditor code={code} setCode={setCode} />
-          {resultType !== "none" && renderResult()}
         </div>
       </div>
+
+      {/* Direct dialog components with conditional rendering */}
+      <AuditDialog
+        result={auditResult}
+        isOpen={isDialogOpen && dialogType === "audit"}
+        onClose={closeDialog}
+      />
+
+      {compiledContract && (
+        <CompilationDialog
+          abi={compiledContract.abi}
+          bytecode={compiledContract.bytecode}
+          isOpen={isDialogOpen && dialogType === "compilation"}
+          onClose={closeDialog}
+        />
+      )}
+
+      {chain?.blockExplorers?.default && (
+        <DeploymentDialog
+          txid={txid}
+          explorerUrl={chain.blockExplorers.default.url}
+          explorerName={chain.blockExplorers.default.name}
+          isOpen={isDialogOpen && dialogType === "deployment"}
+          onClose={closeDialog}
+        />
+      )}
+
+      <ErrorDialog
+        message={errorMessage}
+        isOpen={isDialogOpen && dialogType === "error"}
+        onClose={closeDialog}
+      />
     </div>
   );
 }

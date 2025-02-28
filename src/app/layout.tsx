@@ -44,13 +44,18 @@ export default function RootLayout({
               Smart Contract Auditor
             </Link>
             <div className="flex flex-row items-center gap-4">
-              <Link href="/demo">
-                <Button>Try Demo</Button>
-              </Link>
+              <Button variant="outline">
+                <Link href="/demo" className="text-primary font-bold">
+                  Try Demo
+                </Link>
+              </Button>
+
               <ConnectButton />
             </div>
           </nav>
-          <div className="bg-indigo-950 flex flex-col gap-4 p-10">{children}</div>
+          <div className="bg-indigo-950 flex flex-col gap-4 p-10">
+            {children}
+          </div>
           <footer className="text-center p-4 border-t border-gray-900 fixed bottom-0 w-full bg-primary text-primary-foreground">
             <p>
               &copy; {new Date().getFullYear()} Smart Contract Auditor. All
