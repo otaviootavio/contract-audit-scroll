@@ -6,6 +6,7 @@ import { analyzeContract } from "@/actions/analyseContract";
 import { useSmartContract } from "@/components/use-compiler";
 import { useDeployContract } from "wagmi";
 import { useAccount } from "wagmi";
+import { Abi } from "viem";
 
 // Constants
 const mockSmartContract = `// SPDX-License-Identifier: MIT
@@ -118,7 +119,7 @@ const ActionButtons = ({
   isAuditing: boolean;
   isCompiling: boolean;
   isDeploying: boolean;
-  compiledContract: { abi: any; bytecode: string } | null;
+  compiledContract: { abi: Abi; bytecode: string } | null;
 }) => {
   return (
     <div className="flex gap-4 items-center flex-col sm:flex-row">
@@ -165,7 +166,7 @@ const CompilationResult = ({
   abi,
   bytecode,
 }: {
-  abi: any;
+  abi: Abi;
   bytecode: string;
 }) => (
   <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-8 space-y-4">
@@ -219,7 +220,7 @@ export default function Home() {
   const [auditResult, setAuditResult] = useState<string>("");
   const [isAuditing, setIsAuditing] = useState(false);
   const [compiledContract, setCompiledContract] = useState<{
-    abi: any;
+    abi: Abi;
     bytecode: string;
   } | null>(null);
   const [isDeploying, setIsDeploying] = useState(false);
@@ -230,7 +231,7 @@ export default function Home() {
   const [txid, setTxid] = useState("");
 
   // Hooks
-  const { deployContractAsync, data } = useDeployContract();
+  const { deployContractAsync } = useDeployContract();
   const { chain } = useAccount();
   const { isCompiling, compileContract } = useSmartContract();
 
