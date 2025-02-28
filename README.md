@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AuditAI - Smart Audits for Smart Contracts
 
-## Getting Started
+AuditAI is a decentralized AI-powered platform for auditing smart contracts. Our solution provides developers with automated security analysis, detecting vulnerabilities before deployment and helping to prevent potential exploits.
 
-First, run the development server:
+## 🚀 Features
+
+- **AI-Powered Security Analysis**: Detects over 40 vulnerability types in seconds
+- **Pay-Per-Use Model**: Affordable security based on contract complexity
+- **Decentralized Approach**: Blockchain-based payments and verification
+- **Comprehensive Reports**: Detailed vulnerability explanations with remediation suggestions
+- **Simple 3-Step Process**: Connect wallet, upload files, get instant results
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js 16.x or later
+- Metamask or compatible Web3 wallet
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/auditai.git
+cd auditai
+```
+
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Configure environment variables:
+
+```bash
+cp .env.example .env.local
+```
+Then edit `.env.local` with your specific configuration.
+
+Start the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔍 How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Contract Selection**: Upload your `.sol` files or paste code directly
+2. **Compilation**: System validates correct build and syntax
+3. **Analysis**: AI examines code for security flaws and vulnerabilities
+4. **Report Generation**: Detailed security report with actionable insights
 
-## Learn More
+## 🔒 Security Features
 
-To learn more about Next.js, take a look at the following resources:
+AuditAI detects critical vulnerabilities including:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Reentrancy attacks
+- Access control issues
+- Logic errors
+- Overflow/underflow problems
+- Front-running vulnerabilities
+- Flash loan attack vectors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💼 Business Model
 
-## Deploy on Vercel
+- **Freemium**: Audit smaller contracts at no cost
+- **Pay-Per-Use**: Pricing scales with contract complexity
+- **Subscription Plans**: For teams requiring regular audits
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧑‍💻 Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is built with:
+
+- **Next.js** for the frontend
+- **Solidity** for smart contracts
+- **AI/ML** for vulnerability detection
+
+### Folder Structure
+
+```
+/
+├── app/              # Next.js application
+├── components/       # React components
+├── contracts/        # Smart contracts
+├── lib/              # Utility functions
+├── public/           # Static assets
+└── styles/           # CSS styles
+```
+
+
+## 👥 Team
+
+- **Otavio Vacari** - Blockchain Security (Poli USP)
+- **Paola Queiroz** - Software Engineering (Poli USP)
+- **Tiago Marinho** - Computer Engineering (Poli USP)
+
+## 🔗 Contact
+
+For more information, contact us at [otaviovacari@usp.br](mailto:otaviovacari@usp.br) or visit our website.
+
+---
+
+**AuditAI - Security for all, smart audits for smart contracts.**
