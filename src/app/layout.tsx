@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto_Mono } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import { Providers } from "./providers";
+import Link from "next/link";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Button } from "@/components/ui/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +15,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const roboto_mono = Roboto_Mono({
+  subsets: ["latin"],
+  variable: "--font-roboto-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,11 +34,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto_mono.variable}`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 border-b border-foreground bg-primary text-primary-foreground">
+            <Link href="/" className="text-xl font-bold">
+              Smart Contract Auditor
+            </Link>
+            <div className="flex flex-row items-center gap-4">
+              <Link href="/demo">
+                <Button>Try Demo</Button>
+              </Link>
+              <ConnectButton />
+            </div>
+          </nav>
+          <div className="bg-indigo-950 flex flex-col gap-4 p-10">{children}</div>
+          <footer className="text-center p-4 border-t border-gray-900 fixed bottom-0 w-full bg-primary text-primary-foreground">
+            <p>
+              &copy; {new Date().getFullYear()} Smart Contract Auditor. All
+              rights reserved.
+            </p>
+          </footer>
+        </Providers>
       </body>
     </html>
   );
